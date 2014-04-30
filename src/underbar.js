@@ -300,7 +300,15 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-   
+    var cache = {};
+    var memoFunc = function(val) {
+      if (val in cache) {
+        return cache[val];
+      } else {
+        return cache[val] = func(val);
+      }
+    };
+    return memoFunc;
   };
 
   // Delays a function for the given number of milliseconds, and then calls
