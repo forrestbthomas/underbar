@@ -339,12 +339,17 @@ var _ = {};
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var shuffledArray = [];
+    var tempArr = array;
     var ind;
-    _.each(array, function(val) {
-      ind = Math.floor(Math.random() * array.length);
-      shuffledArray[ind] = val;
-    });
+    var temp;
+    for (var i = 0; i < tempArr.length; i++) {
+      var randInd = Math.round(Math.random() * (array.length - 1));
+      ind = tempArr[randInd];
+      shuffledArray.push(ind);
+      
+    }
     return shuffledArray;
+    
   };
 
 
