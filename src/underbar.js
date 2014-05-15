@@ -339,15 +339,23 @@ var _ = {};
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var shuffledArray = [];
-    var tempArr = array;
-    var ind;
+    var tempArr = Array.prototype.slice.call(arguments);
     var temp;
-    for (var i = 0; i < tempArr.length; i++) {
-      var randInd = Math.round(Math.random() * (array.length - 1));
-      ind = tempArr[randInd];
-      shuffledArray.push(ind);
-      
-    }
+    var shufflerFunc = function(arr) {
+      if (arr.length === 1) {
+        shuffledArray.push(arr[0]);
+        tempArr = [];
+      } else {
+        var randInd = Math.floor(Math.random() * (arr.length));
+        temp = arr[randInd];
+        shuffledArray.push(temp);
+        tempArr.splice(randInd, 1);
+      }
+      return shuffledArray;
+    };
+    while (tempArr.length > 0) {
+      shufflerFunc(tempArr);
+    };
     return shuffledArray;
     
   };
@@ -364,6 +372,12 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    if (typeof iterator === 'function') {
+      return collection.sort(function(a,b) {return iterator(a) - iterator(b);});
+    }
+    if(typeof iterator === 'string') {
+      return collection.sort(function(a,b){return a.length - b.length;});
+    }
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -372,6 +386,11 @@ var _ = {};
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var args = Array.prototype.slice.call(arguments);
+    var narr = [];
+    _.each(args, function(val, ind) {
+      _.pluck()
+    })
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
