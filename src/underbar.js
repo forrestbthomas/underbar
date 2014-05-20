@@ -471,6 +471,20 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
-  };
+    var called = false;
+    var cache = {};
+    var args = arguments;
+    return function(){
+      if (called === false) {
+        cache.result = func.apply(this, args);
+        called = true;
+        return cache.result;
+      } else {
+        window.setTimeout(func, wait);
+        return cache.result;
+      }
+    }
+    
+  }
 
 }).call(this);
